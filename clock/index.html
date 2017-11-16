@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <link rel="stylesheet" type="text/css" href="style.css">
   <title>JS + CSS Clock</title>
 </head>
 <body>
@@ -14,77 +15,11 @@
         <div class="hand second-hand"></div>
       </div>
     </div>
+  <script
+  src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+  integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g="
+  crossorigin="anonymous"></script>
+  <script src="script.js"></script>  
 
-
-  <style>
-    html {
-      background:#018DED url(http://unsplash.it/1500/1000?image=881&blur=50);
-      background-size:cover;
-      font-family:'helvetica neue';
-      text-align: center;
-      font-size: 10px;
-    }
-    body {
-      margin: 0;
-      font-size: 2rem;
-      display:flex;
-      flex:1;
-      min-height: 100vh;
-      align-items: center;
-    }
-    .clock {
-      width: 30rem;
-      height: 30rem;
-      border:20px solid white;
-      border-radius:50%;
-      margin:50px auto;
-      position: relative;
-      padding:2rem;
-      box-shadow:
-        0 0 0 4px rgba(0,0,0,0.1),
-        inset 0 0 0 3px #EFEFEF,
-        inset 0 0 10px black,
-        0 0 10px rgba(0,0,0,0.2);
-    }
-    .clock-face {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      transform: translateY(-3px); /* account for the height of the clock hands */
-    }
-    .hand {
-      width:50%;
-      height:6px;
-      background:black;
-      position: absolute;
-      top:50%;
-      transform-origin: 100%;
-      /*places the origin at the very right hand side (where it starts to transition)*/
-      transform: rotate(90deg);
-      transition: all 0.05s;
-      transition-timing-function: cubic-bezier(0, 2.22, 0.58, 1);
-      /* goes a little past boundary and comes back to create ticking*/
-    }
-  </style>
-
-  <script>
-
-  const secondHand = document.querySelector(".second-hand");
-
-    function setDate() {
-      const date = new Date(); 
-      // Grab a new date to get the time params 
-      const seconds = date.getSeconds();
-      const secDegrees = ((seconds / 60) * 360) + 90; 
-      // representation of degrees per second
-      // Add 90 degrees to counter the initial offset that I used to place the second hand in a vertical position.
-      secondHand.style.transform = `rotate(${secDegrees}deg)`;
-      // This tells the second hand to rotate a set amount of degrees per second by using the secDegrees calculation above and the transform method.
-      // Make sure you're using the ` mark and not a '' for query selectors!
-      console.log(seconds);
-    }
-
-    setInterval(setDate, 1000); 
-  </script>
 </body>
 </html>
