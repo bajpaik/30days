@@ -1,47 +1,131 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Scoped CSS Variables and JS</title>
+	<meta charset="UTF-8">
+	<title>Scoped CSS Variables and JS</title>
 </head>
 <body>
-  <h2>Update CSS Variables with <span class='hl'>JS</span></h2>
 
-  <div class="controls">
-    <label for="spacing">Spacing:</label>
-    <input id="spacing" type="range" name="spacing" min="10" max="200" value="10" data-sizing="px">
+<!-- BEGIN BODY FOR HTML ELEMENTS -->
+	<!-- FOR NOTE PURPOSES, ALL CSS AND JS WERE DONE WITHIN THIS FILE *NOT IDEAL* -->
+	<h2>Updating <span class='hl'>CSS</span> Variables with <span class='hl'>JavaScript</span></h2>
 
-    <label for="blur">Blur:</label>
-    <input id="blur" type="range" name="blur" min="0" max="25" value="10" data-sizing="px">
+	<div class="controls">
+		<label for="spacing">Spacing:</label>
+		<input id="spacing" type="range" name="spacing" min="10" max="200" value="10" data-sizing="px">
 
-    <label for="base">Base Color</label>
-    <input id="base" type="color" name="base" value="#ffc600">
-  </div>
+		<label for="blur">Blur:</label>
+		<input id="blur" type="range" name="blur" min="0" max="25" value="10" data-sizing="px">
 
-  <img src="https://source.unsplash.com/7bwQXzbF6KE/800x500">
+		<label for="base">Base Color</label>
+		<input id="base" type="color" name="base" value="#ffc600">
+	</div>
 
-  <style>
-    /*
-      misc styles, nothing to do with CSS variables
-    */
-    body {
-      text-align: center;
-      background: #193549;
-      color: white;
-      font-family: 'helvetica neue', sans-serif;
-      font-weight: 100;
-      font-size: 50px;
-    }
-    .controls {
-      margin-bottom: 50px;
-    }
-    input {
-      width:100px;
-    }
-  </style>
+	<img src="https://source.unsplash.com/7bwQXzbF6KE/800x500">
+<!-- END HTML ELEMENTS -->
 
-  <script>
-  </script>
+<!-- BEGIN CSS STYLING -->
+	<style>
+/*defining the variables for future reference*/
+		:root {
+			--base: #ffc600;
+			--spacing: 10px;
+			--blur: 10px;
+		}
+
+		img {
+			/*Using the spacing variable */
+			padding: var(--spacing);
+			background: var(--base);
+			filter: blur(var(--blur));
+		}
+
+		.hl {
+			 /*everywhere on the page, the hightlight text color will respond if changed.*/
+			color: var(--base);
+		}
+	/*
+	  misc styles, nothing to do with CSS variables
+	  */
+	  body {
+	  	text-align: center;
+	  	background: #193549;
+	  	color: white;
+	  	font-family: 'helvetica neue', sans-serif;
+	  	font-weight: 100;
+	  	font-size: 50px;
+	  }
+	  .controls {
+	  	margin-bottom: 50px;
+	  }
+	  input {
+	  	width:100px;
+	  }
+	</style>
+<!-- END CSS STYLING -->
+
+<!-- BEGIN JAVASCRIPT SECTION  -->
+	<script>
+	// select all control elements, so that when they are changed, the CSS responds. Remember that only a nodelist is returned, which
+	// is different than an Array in the sense that an Array has many, many, more applicable methods that can be called. 
+	// forEach recently added to node list, so only change for older browser support
+	const inputs = document.querySelectorAll('.controls input'); 
+
+	function handleUpdate() {
+		console.log(this.value);
+		// see .dataset note below.
+		// some will not have a data-attribute, so instead of suffixing undefined, I suffix nothing (primarily for base color)
+		const suffix = this.dataset.sizing || ''; 
+		//I can use the -- + ${} here, because I named the html elements to match their CSS name (this.name = base)
+		// NOTE, this code will not work without the appended suffix, because this.value doesn't have the required 'px'.
+		// 			go to elements of chrome dev, and change the value, notice how it logs, but doesn't apply the blur.
+		document.documentElement.style.setProperty(`--${this.name}`, this.value + suffix);
+	}
+	// using the arrow function to add an event listener that triggers each time a change is 
+	//	registered or the mouse moves over the element. 
+	inputs.forEach(input => input.addEventListener('change', handleUpdate));
+	inputs.forEach(input => input.addEventListener('mousemove', handleUpdate));
+
+	</script>
+<!-- END JAVASCRIPT -->
 
 </body>
-</html>
+<!-- END BODY OF HTML, ONLY NOTES BELOW -->
+
+<!--
+***** NOTES *****
+ 	* when you change a variable via JS, since it's changing the CSS property, everywhere that variable is on the page will also change/respond.
+
+ 	* You declare CSS variables on some kind of element
+ 	* :root is the highest level .. almost like global defining a variable
+ 		EXAMPLE:    -- varName : property 
+ 	* To use a variable as a CSS value, you have to do:
+		 EXAMPLE: 
+		 - property: var(--varName);
+	       ie background: var(--base);
+	* Using a DATA-SUFFIX to help detect what element was actually changed. 
+		 CREATION:
+		  - You create a data element, which is just another property of the element that you want to be accessible,
+		  	by adding it to the HTML code with a prefix of "data-".
+		  EXAMPLE: 
+		  - Lines 12 and 14
+		  - data-sizing="px"
+	* using .dataset will RETURN an object that contains ALL of the data-attributes of the element that you called it on. 
+	** IN SUMMARY:
+		* When you use a css var you can then update that var on any element and any selctors that are inside of elmeent that reference that variable will be using it.
+		* You can also overwrite a style variable/css selector by placing another definition further down with a defined value:
+			EXAMPLE:
+				<html lang="en" style ="--blur:18px; --spacing:124px; --base:#ff4a80;">
+				<head>..</head>
+				<body>
+					<h2 style="--base:#000000;"> ... </h2>
+				</body>
+				</html>
+				* The H2 header's style would be overwritten in white, since I defined it further down.
+
+
+***** TODO *****
+	1. Lookup filter CSS property.
+	2. document.documentElement.style.setProperty(`--${this.name}`, this.value);
+	 !-->
+	</html>
