@@ -106,9 +106,36 @@
 	console.table(elder);
 
 // 6. create a list of Boulevards in Paris that contain 'de' anywhere in the name
-
-
 // https://en.wikipedia.org/wiki/Category:Boulevards_in_Paris
+	const category = document.querySelector(".mw-category");
+	/*  Start out using dev tools to find what type of element contains what I'm looking
+		for, then use querySelector to select what's needed. REMEMBER, you do NOT have to
+		use document for query selector, b/c ANY DOC object can be used in substitution.
+
+NOTICE: const links = category.querySelectorAll('a'); // grabbing all link elements --- THIS WILL ERROR, SEE BELOW
+	
+	   links would now contains all of the links within the mw-category html element, but
+	   I need only the blvds that contain 'de'! 
+	   		1. Use map to generate a NODELIST of all of the link element's .textContent (since that's all I care about anyways)
+				However, ATTEMPTING TO USE MAP ON A NODELIST will error. Nodelist objects 
+				do not have the .map() method, which you can see by opening the prototype
+				that's given by chrome. 
+
+		.... SOOOOO, YOU MUST DO THE FOLLOWING:
+
+			2. Convert the retuned list into an array with Array.from() on the links element.
+			3. Run the map method on the array of links to get the .textContent(), b/c the map
+				method will return a new array of the SAME LENGTH, since it is getting the textContent
+				from each element in the initial map.
+			4. Run a filter on the result of the previous map and use the .includes() method:
+		*/
+		const links = Array.from(category.querySelectorAll('a');
+		const de = links
+			.map(link => link.textContent)
+			.filter(streetname => streetname.includes("de"));
+	//*************************************
+
+
 // 7. sort Exercise
 // Sort the people alphabetically by last name
 
