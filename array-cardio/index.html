@@ -76,19 +76,34 @@
 /************* SORT NOTES: ***
 	* The way that sort works is by comparing two items against each other, however,
 		you have to return either 1 or -1 to actually sort the items. 
+	* It is as simple as it sounds:
+		- return -1 if you want before 
+		- return  1 if you want after
 *************************************/
 
 
 // Array.prototype.reduce()
 // 4. How many years did all the inventors live?
+		const totalYears = inventors.reduce((total, inventor) => {
+			return total + (inventor.passed - inventor.year); 
+		} , 0);
+		console.log(totalYears);
+		// If the 0 is not included, the function will fail on the first run, since the total
+		//	variable does not exist. 
 
 /************* REDUCE NOTES: ***
-
+	* Reduce is a cleaner way to perform a function that accumulates/collects 
+		a running total for a sequence of elements. 
 *************************************/
 
 
 // 5. Sort the inventors by years lived
-
+	const elder = inventors.sort((a,b) => {
+		const aAge = a.passed - a.year;
+		const bAge = b.passed - b.year;
+		return aAge > bAge ? -1 : 1;
+	});
+	console.table(elder);
 
 // 6. create a list of Boulevards in Paris that contain 'de' anywhere in the name
 
