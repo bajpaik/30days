@@ -145,7 +145,7 @@ NOTICE: const links = category.querySelectorAll('a'); // grabbing all link eleme
 		});
 		console.log(lastName);
 
-/************* REDUCE NOTES: ***
+/************* NOTES: ***
 	* The people's array does not have a first and last property to make this a 
 		straight forward sort. So instead:
 			 * Notice that they all share a comma and space:
@@ -159,6 +159,22 @@ NOTICE: const links = category.querySelectorAll('a'); // grabbing all link eleme
 // 8. Reduce Exercise
 // Sum up the instances of each of these
 		const data = ['car', 'car', 'truck', 'truck', 'bike', 'walk', 'car', 'van', 'bike', 'walk', 'car', 'van', 'car', 'truck' ];
+		const move = data.reduce((obj, item) => {
+			if(!obj[item]) obj[item] = 0; //check to ensure the return obj exists and create if not.
+			obj[item]++; // Since you know for sure that it exists now, increment the count
+			return obj; // return the obj aka the accumulator, which now contains the key:value result
+		}, {});
+		console.log(move);
+
+		/************* NOTES: ***
+	* The goal is to return a tally of the number of times each of the above occur in the data array.
+			1. Create an object, which is done by the 2nd parameter to the reduce function, "{}".
+			2. Fill the blank object by making a key:value entry.
+				- Remember, assignment operator will also CREATE if the entry is not already there.
+				- You cannot increment the value if the key was not already there, so check to make sure
+					that it exists!
+*************************************/
+
 	</script>
 </body>
 </html>
