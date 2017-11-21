@@ -107,7 +107,7 @@
 
 // 6. create a list of Boulevards in Paris that contain 'de' anywhere in the name
 // https://en.wikipedia.org/wiki/Category:Boulevards_in_Paris
-	const category = document.querySelector(".mw-category");
+	// const category = document.querySelector(".mw-category");
 	/*  Start out using dev tools to find what type of element contains what I'm looking
 		for, then use querySelector to select what's needed. REMEMBER, you do NOT have to
 		use document for query selector, b/c ANY DOC object can be used in substitution.
@@ -129,15 +129,31 @@ NOTICE: const links = category.querySelectorAll('a'); // grabbing all link eleme
 				from each element in the initial map.
 			4. Run a filter on the result of the previous map and use the .includes() method:
 		*/
-		const links = Array.from(category.querySelectorAll('a');
-		const de = links
-			.map(link => link.textContent)
-			.filter(streetname => streetname.includes("de"));
+		// const links = Array.from(category.querySelectorAll('a');
+		// const de = links
+		// 	.map(link => link.textContent)
+		// 	.filter(streetname => streetname.includes("de"));
 	//*************************************
 
 
 // 7. sort Exercise
 // Sort the people alphabetically by last name
+		const lastName = people.sort((a, b) => {
+			const [aLast, aFirst] = a.split(', ');
+			const [bLast, bFirst] = b.split(', ');
+			return (aLast > bLast) ? 1: -1;
+		});
+		console.log(lastName);
+
+/************* REDUCE NOTES: ***
+	* The people's array does not have a first and last property to make this a 
+		straight forward sort. So instead:
+			 * Notice that they all share a comma and space:
+				   - Use what they share to split each element into first name and 
+				   		last name.
+			 * NOTICE: THE ARRAYS CREATED INSIDE OF THE FUNCTION ARE LOCAL AND DISAPPEAR
+			 		ON EACH CALL. ALSO, NOTICE THAT THE WHOLE STRING IS RETAINED WHEN RETURNING.
+*************************************/
 
 
 // 8. Reduce Exercise
