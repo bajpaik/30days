@@ -15,12 +15,76 @@
     </ul>
   </form>
 <script>
+// variable that stores city, state, and population data
 const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+// empty array to hold the cities that's fetched from the endpoint above.
+const cities = [];
 
+/* Built in function that returns a promise, (not the data that would be retuned 
+ * with getJSON()), which is more or less a placeholder that guarantees data will
+ * returned. To use the promise you have to use the .then() method and call .json() 
+ * to convert the data into raw format. Again, this is a promise return, so call the
+ * .then() method again to store the data.
+ */
+fetch(endpoint)
+  .then(blob => blob.json())
+  .then(data => cities.push(...data));
+  //console.log(cities); check
 
+/* Creates the filter method to filter through the cities array for the UI.
+ * wordToMatch - param that user typed, passed from findMatches
+ * cities - Cities[], contains all data from fetch, also passed from findMatches 
+ */
+function findMatches(wordToMatch, cities) {
+  return cities.filter(place => {
+    const regex = new RegExp(wordToMatch, 'gi');
+    return place.city.match(regex) || place.state.match(regex);
+  });
+}
 
+/* Replaces the original argument with a return value that has a comma inserted
+ * into the appropriate numerical spot. 
+ * x - Number to be comma formatted
+ * return - formatted input.
+ */
+function numberWithCommas(x) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
 
+/* Creates a function to display the filtered matches, then calls the findMatches()
+ * method with the UI and cities array.
+ * returns - a JOINED string LITERAL of all the matches that are returned. Each element
+ *  inside of the array is joined with .join('') and displayed in HTML with literal 
+ *  template tickmarks used for forced literal intrepretation. 
+ */
+function displayMatches() {
+  //console.log(this.value); check to see value of event
+  const matchArray = findMatches(this.value, cities); // 'this' is whatever the event was fired on!
+  // new variable that contains the html for displaying the results of each matched element.
+  const html = matchArray.map(place => {
+  const regex = new RegExp(this.value, 'gi'); //new regexp that represents the search input from the user
+   // replace the data stored in each elements city & state value with literal HTML spans that add highlighting from the css code in styles.css + the original value stored in the city and state attribute values. 
+  const cityName = place.city.replace(regex, `<span class="hl">${this.value}</span>`);
+  const stateName = place.state.replace(regex, `<span class="hl">${this.value}</span>`);
+  // returning literal HTML and JS code using backticks. Note the function call before place.population! 
+  return `
+    <li>
+      <span class="name">${cityName}, ${stateName} </span>
+      <span class="population">${numberWithCommas(place.population)} </span>
+    </li>
+  `; 
+  }).join(''); //join all of the elements in the array to avoid an array of html code for each matched element being returned.
+ suggestions.innerHTML = html;
+}
 
+// grab your variables (ie the searchbox and suggestions elements) for future manipulation 
+const searchInput = document.querySelector('.search');
+const suggestions = document.querySelector('.suggestions');
+//attach an event listener to the search box and look for a change
+searchInput.addEventListener('change', displayMatches);
+searchInput.addEventListener('keyup', displayMatches);
+// added both the change and keyup listeners so that the event will be triggered regardless of clicking outside of the box OR pressing a key.
+// displayMatches is a reference to the function that's defined above, which prevents it from running onload
 </script>
   </body>
 </html>
