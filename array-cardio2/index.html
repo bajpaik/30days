@@ -23,13 +23,34 @@
     ];
     // Some and Every Checks
     // Array.prototype.some() // is at least one person 19 or older?
+    const anyPeople = people.some(person => (new Date().getFullYear() - person.year) >= 19);
+    console.table({anyPeople}); // {var} logs var:value in console log.
+    
     // Array.prototype.every() // is everyone 19 or older?
-    // Array.prototype.find()
-    // Find is like filter, but instead returns just the one you are looking for
-    // find the comment with the ID of 823423
-    // Array.prototype.findIndex()
-    // Find the comment with this ID
+    const allPeople = people.every(person => (new Date()).getFullYear - person.year >= 19);
+    console.log(allPeople);
+    console.log({allPeople});
+    
+    // Array.prototype.find() : Like filter but returns first match.
+    //Find 2039842
+    const findComment = comments.find(comment => comment.id === 2039842);
+    console.log(findComment);
+
+    // Array.prototype.findIndex() : Like find(), but returns index position of match.
+     // Find the comment with ID = 823423
+    const commentIndex = comments.findIndex(comment => comment.id === 823423);
+    console.log({commentIndex}); // {commentIndex: 1}
+   
     // delete the comment with the ID of 823423
+    
+    // SPLICE: modifies original array
+    // comments.splice(comments.findIndex(comment => comment.id === 823423), 1);
+    // console.table(comments);
+
+    //SLICE: shallow modification, popular with react user
+    const slicedArray = [...comments.slice(0, commentIndex), ...comments.slice(commentIndex + 1)];
+    console.table(slicedArray);
+    console.log({slicedArray});
   </script>
 </body>
 </html>
