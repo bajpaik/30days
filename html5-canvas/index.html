@@ -9,6 +9,53 @@
 
 
 <script>
+//grab canvas to work with
+const canvas = document.querySelector("#draw");
+// specify either 2d or 3d context for rendering
+const ctx = canvas.getContext('2d');
+// set base settings for context:
+ctx.strokeStyle = "#BADA55";
+ctx.lineCap = 'round';
+ctx.lineJoin = 'round'; 
+// set context to the entire size of document
+canvas.width = Window.innerWidth;
+canvas.height = Window.innerHeight;
+
+// create flag to tell you should be drawing on context
+let isDrawing = false;
+let lastX = 0;
+let lastY = 0;
+
+/** 
+ * Function to draw on canvas context.
+ * e: The event to draw.
+ */ 
+function draw(e) {
+	//check to make sure you should be drawing:
+	if(!isDrawing) return;
+	// console.log(e); check
+	// isDrawing is true only when mousedown is detected. If the mouse is moved, the draw() function is called.
+	ctx.beginPath(); // start path for drawing
+	ctx.moveTo(lastX, lastY); // move to new coord point
+	ctx.lineTo(e.offsetX, e.offsetY); // connect the line from event.offsetX and event.offsetY value
+	ctx.stroke(); // renders the drawing onto the canvas
+// NOTE: ES6 destructure syntax used .. same as lastX = e.offsetX; lastY = e.offsetY;
+	[lastX, lastY] = [e.offsetX, e.offsetY]; // after rendering the line, update your x1 y1 to x2 y2
+}
+
+// attach eventlisenter on the canvas to detect mousemovement *requires mousedown first*
+canvas.addEventListener('mousemove', draw);
+// attach event listener on canvas to set isDrawing to true when mousedown is detected
+canvas.addEventListener('mousedown', () => {
+	isDrawing = true;
+	[lastX, lastY] = [e.offsetX, e.offsetY]; // set X1 and Y1. Initially at 0,0 by default. 
+});
+// make sure to set isDrawing to false on mouseup events
+canvas.addEventListener('mouseup', () => isDrawing = false);
+// prevent accidental drawing/events firing when mouse is out of context
+canvas.addEventListener('mouseout', () => isDrawing = false);
+
+
 
 </script>
 
