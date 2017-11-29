@@ -13,40 +13,55 @@
 const canvas = document.querySelector("#draw");
 // specify either 2d or 3d context for rendering
 const ctx = canvas.getContext('2d');
+// set context to the entire size of document
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 // set base settings for context:
-ctx.strokeStyle = "#BADA55";
+ctx.strokeStyle = '#BADA55';  // b4da55.io for details
 ctx.lineCap = 'round';
 ctx.lineJoin = 'round'; 
-// set context to the entire size of document
-canvas.width = Window.innerWidth;
-canvas.height = Window.innerHeight;
+ctx.lineWidth = 100;
 
 // create flag to tell you should be drawing on context
 let isDrawing = false;
 let lastX = 0;
 let lastY = 0;
+let hue = 0; // hue variable to increment and change w/ mousemove
+let direction = true; // flag for incrementing / decrementing cycle
 
 /** 
- * Function to draw on canvas context.
+ * Function to draw on canvas context. Note that the isDrawing variable is 
+ * true only when mousedown is detected. If the mouse is moved, this function 
+ * is called.
  * e: The event to draw.
  */ 
 function draw(e) {
 	//check to make sure you should be drawing:
 	if(!isDrawing) return;
 	// console.log(e); check
-	// isDrawing is true only when mousedown is detected. If the mouse is moved, the draw() function is called.
+
+	ctx.strokeStyle = `hsl(${hue}, 100%, 50%)`; // set the color of the stroke to the hue variable with 
 	ctx.beginPath(); // start path for drawing
 	ctx.moveTo(lastX, lastY); // move to new coord point
 	ctx.lineTo(e.offsetX, e.offsetY); // connect the line from event.offsetX and event.offsetY value
 	ctx.stroke(); // renders the drawing onto the canvas
 // NOTE: ES6 destructure syntax used .. same as lastX = e.offsetX; lastY = e.offsetY;
 	[lastX, lastY] = [e.offsetX, e.offsetY]; // after rendering the line, update your x1 y1 to x2 y2
+	//make the hue change with each movement of the mouse
+	hue++; //incrementing hue affects strokeStyle color (look at declaration of vars)
+	// The hue is essentially circular and will cycle at 360. Reset after each cycle to prevent overflow.
+	if(hue >= 360) hue = 0; //  hue at 0 ==  hue at 360 (reset the cycle)
+	// Change the flag if you reach a linewidth of 1 or 100 to oscillate lineWidth increment cycles;
+	if(ctx.lineWidth >= 100 || ctx.lineWidth <= 1) direction = !direction; // limiting the line width to max of 100 and min of 1.
+	if(direction) ctx.lineWidth++; // increment with isDirection = true
+	else ctx.lineWidth--; //decrement if isDirection = false. 
+
 }
 
 // attach eventlisenter on the canvas to detect mousemovement *requires mousedown first*
 canvas.addEventListener('mousemove', draw);
 // attach event listener on canvas to set isDrawing to true when mousedown is detected
-canvas.addEventListener('mousedown', () => {
+canvas.addEventListener('mousedown', (e) => {
 	isDrawing = true;
 	[lastX, lastY] = [e.offsetX, e.offsetY]; // set X1 and Y1. Initially at 0,0 by default. 
 });
