@@ -87,6 +87,41 @@
   </div>
 
 <script>
+const checkboxes = document.querySelectorAll('.inbox input[type="checkbox"]');
+
+let lastChecked;
+/**
+ * Function to hanldle click events. If the user holds the shift key down when
+ * selecting a checkbox, the checkboxes between the first click and second click
+ * will be auto-checked. If the user has not made a first selection, then all
+ * checkboxes will be filled. 
+ * e, the click event.
+ */
+ function handleCheck(e) {
+  // console.log(e); check to see if event is being passed correctly. 
+  // var for checking limits of checked vs not checked.
+  let inBetween = false;
+  //check if the shift key was held down and the box is being CHECKED
+/* 
+PULL REQUEST NOTES: 
+ADDED CHECK TO MAKE SURE AT LEAST ONE CHECKBOX IS SELECTED TO PREVENT ALL CHECKBOXES BELOW THE CURRENT FROM BEING SELECTED. 
+*/
+  if(e.shiftKey && this.checked && lastChecked !== undefined) {
+    // loop through each of the checkboxes and see where the start and end limits are.
+    checkboxes.forEach(checkbox => {
+      // console.log(checkbox);
+      if(checkbox === this || checkbox === lastChecked) 
+        inBetween = !inBetween;
+    
+      if(inBetween) checkbox.checked = true;
+    });
+  }
+
+  lastChecked = this;
+ }
+
+checkboxes.forEach(checkbox => checkbox.addEventListener('click', handleCheck));
+
 </script>
 </body>
 </html>
