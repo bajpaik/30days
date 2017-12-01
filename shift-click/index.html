@@ -104,7 +104,11 @@ let lastChecked;
   //check if the shift key was held down and the box is being CHECKED
 /* 
 PULL REQUEST NOTES: 
-ADDED CHECK TO MAKE SURE AT LEAST ONE CHECKBOX IS SELECTED TO PREVENT ALL CHECKBOXES BELOW THE CURRENT FROM BEING SELECTED. 
+  Added a check to make sure that the lastChecked variable was defined before
+  going through each checkbox and automatically checking all boxes. This typically
+  occured when the user held shift and clicked ON THEIR FIRST SELECTION. However,
+  now the selection will only be filled if there are actually two checkboxes
+  clicked beforehand.
 */
   if(e.shiftKey && this.checked && lastChecked !== undefined) {
     // loop through each of the checkboxes and see where the start and end limits are.
