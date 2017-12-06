@@ -4,9 +4,8 @@ const video = player.querySelector('.viewer');
 const progress = player.querySelector('.progress');
 const progressBar = player.querySelector('.progress__filled');
 const toggle = player.querySelector('.toggle');
-const skipButtons = player.querySelector('[data-skip]');
+const skipButtons = player.querySelectorAll('[data-skip]');
 const ranges = player.querySelectorAll('.player__slider');
-let mousedown = false;
 
 /**
  * Plays the video via toggling the paused attribute of the video element.
@@ -87,15 +86,21 @@ let mousedown = false;
  /* The play and pause events are triggered when the video is correspondingly 
  		clicked to play or pause. Once these are detected, the updateButton should
  		be called to make it show what behaivor will be performed once clicked. */
+ video.addEventListener('timeupdate', handleProgress); // could also have used PROGRESS instead of TIMEUPDATE
+ skipButtons.forEach(button => button.addEventListener('click', skip));
  ranges.forEach(range => range.addEventListener('change', handleRangeUpdate));
  ranges.forEach(range => addEventListener('mousemove', handleRangeUpdate));
- video.addEventListener('timeupdate', handleProgress); // could also have used PROGRESS instead of TIMEUPDATE
+ 
+ // Create flag variable and manipulation methods.
+ let mousedown = false;
  // change the flag variable (mousedown) to true/false via inline function.
  progress.addEventListener('mousedown', () => mousedown = true);
  progress.addEventListener('mouseup', () => mousedown = false);
+ 
+ progress.addEventListener('click', scrub); // scrub video time when user clicks on progress bar.
  /* run the scrub function when the flag variable is TRUE. Since the left-var is tested first,
  		the scrub function will not run if the user is not holding down the mouse. */
- progress.addEventListener('mousemove', (e) => mousedown && scrub(e));
+ progress.addEventListener('mousemove', (e) => mousedown && scrub(e)); //scrub video time when user drags on progress bar
 
 
 
