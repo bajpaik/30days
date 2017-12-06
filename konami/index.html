@@ -2,11 +2,24 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Key Detection</title>
+  <title>Key Detection: muffins</title>
   <script type="text/javascript" src="http://www.cornify.com/js/cornify.js"></script>
 </head>
 <body>
 <script>
+alert("For some reason you feel like typing \"muffins\".. Give it a go ☺️");
+const pressed = [];
+const key = 'muffins';
+
+window.addEventListener('keyup', (e) => {
+	console.log(e.key);
+	pressed.push(e.key);
+	pressed.splice(-key.length - 1, pressed.length - key.length);
+	console.log(pressed);
+	if(pressed.join('').includes(key)) 
+		cornify_add();
+})
+
 </script>
 </body>
 </html>
