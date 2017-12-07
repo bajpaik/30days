@@ -57,6 +57,42 @@
         if (callNow) func.apply(context, args);
       };
     }
+
+    // all images that need the slide effect applied. 
+    const sliderImages = document.querySelectorAll('.slide-in');
+    /**
+     * Function handles the transitiion of images
+     */
+    function checkSlide(e) {
+      // console.log(e); 
+      // console.count(e); 
+      sliderImages.forEach(sliderImage => {
+        // calculate height of where the transition should begin by taking the amount scrolled
+        // adding the innerHeight of the window and then 1/2 the image height.
+        const slideInAt = (window.scrollY + window.innerHeight) - 
+        (sliderImage.height / 2);
+        // Height of how far the bottom of the image is from the top of the page
+        // .offsetTop is the height from the top of the image to the top of the page.
+        const imageBottom = (sliderImage.offsetTop + sliderImage.height);
+
+        //check to see if you can begin the effect
+        const isHalfShown = slideInAt > sliderImage.offsetTop;
+
+        //check to see if you need to remove the effect
+        const isNotScrolledPast = window.scrollY < imageBottom;
+
+        // apply effect with conditionals above
+        if(isHalfShown && isNotScrolledPast) 
+          sliderImage.classList.add('active');
+        else sliderImage.classList.remove('active');
+
+
+
+      });
+    }
+    // watch for scroll event and run checkSlide function when triggered.
+    window.addEventListener('scroll', checkSlide); 
+
   </script>
 
   <style>
