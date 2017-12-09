@@ -29,8 +29,9 @@
       const addItems = document.querySelector('.add-items');
   // load topless dishes 
   const itemsList = document.querySelector('.plates');
-  //storing all data in here, as well as the status of the dish
-  const items = [];
+  // storing all data in here, as well as the status of the dish
+  // On page load, either get what's in localStorage or just a blank array.
+  const items = JSON.parse(localStorage.getItem('items')) || [];
 
   /**
    * Adds item to the data array when someone either clicks or hits submit.
@@ -58,7 +59,9 @@
     };
 
     items.push(item); // just pushes the data into the item. Does not store if refreshed.
-
+    populateList(items, itemsList);
+    // localStorage for persistance, need JSON.stringify because localStorage only stores STRINGS
+    localStorage.setItem('items', JSON.stringify(items));
    // console.log(item); // notice the item now has the UI and a false done status.
    // Since this = form element, call this.reset to reset the form's value after submission.
    this.reset();
