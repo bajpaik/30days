@@ -75,13 +75,15 @@
     /* not making plates and platesList set to constants makes this function more
       adadptable, since now it can accept any type of dish and any location for starage
     */
-    platesList.innerHTML = plates.map(plate, i) => {
+    platesList.innerHTML = plates.map((plate, i) => {
       return `
         <li>
-          <label for="">${plate.text}</label>
+          <input type="checkbox" data-index=${i} id="item${i}" ${plate.done ? 'checked' : ''}
+          <label for="item${i}">${plate.text}</label>
         </li>
-       `
-    }
+       `;
+    }).join(''); // Need the .join method to return the HTML between your backticks.
+   // NOTE: Without using react or angular, this function REBUILDS the entire list EACH TIME.
    }
   // listen for a submit event via hitting enter, clicking, etc.. (covers all bases instead of 'click')
   addItems.addEventListener('submit', addItem);
