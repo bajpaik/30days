@@ -47,7 +47,7 @@
         // notice that the page is logging and then refreshing => chrome, preserve log
         console.log("added ", e);
         // however, to stop the page from automatically reloading
-        e.preventDefault(); // by default, the page sends the form/data to the server side, but we want to work on client side only. Notice now that the page does not reload when clicking submit/hitting enter.
+        // e.preventDefault(); // by default, the page sends the form/data to the server side, but we want to work on client side only. Notice now that the page does not reload when clicking submit/hitting enter.
         // Get the item and add to items array
         const text = (this.querySelector('[name=item]')).value;
         /* You can either use document.querySelector or use this.querySelector because the form is being
