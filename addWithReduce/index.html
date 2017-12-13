@@ -185,16 +185,28 @@
     </ul>
     <script>
     // Grab all video elements by selecting data-time attribute
+    // convert from nodeList to an Array to use .map and other array functions.
     const timeNodes = Array.from(document.querySelectorAll("[data-time]"));
-
+    // secondsTotal will store the total seconds of video content from all videos.
     const secondsTotal = timeNodes
         .map(node => node.dataset.time)
         .map(timeFormat => {
+            /* Notes: 
+            1. Need to .split(':') to get min and sec elements separated. 
+            2. Need to use parseFloat to get min and sec in NUM format, currently in string.
+            3. I used ES6 destructuring to assign min and sec.
+            4. Notice the shortcut on parseFloat:
+                * Since I only want to go over EACH element and call parseFloat, I can 
+                  use a shortcut of .map(parseFloat), since parseFloat will be treated as 
+                a reference function at this point (on each element). 
+            */
             const [mins, secs] = timeFormat.split(':').map(parseFloat);
             return (mins * 60) + secs;
         }).reduce((totalTime, vidSecs) => totalTime + vidSecs);
+    // used reduce to get a summation of all video seconds.
 
     // Now log to console in format of hrs : mins : secs
+    // secondsRemaining will be used to keep tally of how many seconds remain after each unit conversion... hence the 'let' identifier.
     let secondsRemaining = secondsTotal;
     const hours = Math.floor(secondsRemaining / 3600);
     secondsRemaining = secondsRemaining % 3600;
