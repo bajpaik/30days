@@ -45,6 +45,32 @@
     <ul id="bands"></ul>
     <script>
     const bands = ['The Plot in You', 'The Devil Wears Prada', 'Pierce the Veil', 'Norma Jean', 'The Bled', 'Say Anything', 'The Midway State', 'We Came as Romans', 'Counterparts', 'Oh, Sleeper', 'A Skylit Drive', 'Anywhere But Here', 'An Old Dog'];
+
+    /**
+     * Strips off any articles that match 'a ', 'the ', and 'an ' by use of a
+     * REGEXP and replace().
+     */
+    function strip(bandName) {
+        return bandName.replace(/^(a |the |an )/i, '').trim();
+        // trim() method used to take off any remaining whitespaces after running strip().
+    }
+
+    const sortedBands = bands.sort((a, b) => strip(a) > strip(b) ? 1 : -1);
+    /* This is the same as: 
+           bands.sort(function(a, b) {
+             if(strip(a) > strip(b)) return 1;
+             else return -1;
+           });
+     - However I shortened the syntax by using arrow function notation,
+       with an implicit-ternary-return statement. 
+     - Only once line of code & comparision operator -> implicit return
+     */
+
+    document.querySelector('#bands').innerHTML =
+        sortedBands.map(band => `<li>${band}</li>`).join('');
+    /* Need the .join method to stop the DOM from adding each element of 
+        the array as "e1", "e2", ... and instead have " e1 e2 ...."  since 
+        the goal is to insert HTML as ONE long string. */
     </script>
 </body>
 
