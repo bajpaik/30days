@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>👀👀👀Follow Along Nav</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <nav>
+        <ul class="menu">
+            <li><a href="">Home</a></li>
+            <li><a href="">Order Status</a></li>
+            <li><a href="">Tweets</a></li>
+            <li><a href="">Read Our History</a></li>
+            <li><a href="">Contact Us</a></li>
+        </ul>
+    </nav>
+    <div class="wrapper">
+        <p>Lorem ipsum dolor sit amet, <a href="">consectetur</a> adipisicing elit. Est <a href="">explicabo</a> unde natus necessitatibus esse obcaecati distinctio, aut itaque, qui vitae!</p>
+        <p>Aspernatur sapiente quae sint <a href="">soluta</a> modi, atque praesentium laborum pariatur earum <a href="">quaerat</a> cupiditate consequuntur facilis ullam dignissimos, aperiam quam veniam.</p>
+        <p>Cum ipsam quod, incidunt sit ex <a href="">tempore</a> placeat maxime <a href="">corrupti</a> possimus <a href="">veritatis</a> ipsum fugit recusandae est doloremque? Hic, <a href="">quibusdam</a>, nulla.</p>
+        <p>Esse quibusdam, ad, ducimus cupiditate <a href="">nulla</a>, quae magni odit <a href="">totam</a> ut consequatur eveniet sunt quam provident sapiente dicta neque quod.</p>
+        <p>Aliquam <a href="">dicta</a> sequi culpa fugiat <a href="">consequuntur</a> pariatur optio ad minima, maxime <a href="">odio</a>, distinctio magni impedit tempore enim repellendus <a href="">repudiandae</a> quas!</p>
+    </div>
+    <script>
+    // 👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀
+    // select all link elements that can be hovered over
+    const triggers = document.querySelectorAll('a');
+    // make an element to be used as the highlighter
+    const highlight = document.createElement('span');
+    // Add the 'highlight' class to the newly created element.
+    highlight.classList.add('highlight');
+    // if you inspect the page, you can see it's added at the end of the body,
+    // but it's not visible because there is no height or width associated with it.
+    document.body.append(highlight);
+
+    /**
+     * Applies the highlight effect
+     */
+    function highlightLink() {
+
+        const linkCoords = this.getBoundingClientRect();
+        console.log("Highlight!!", linkCoords);
+        highlight.style.width = `${linkCoords.width}px`;
+        highlight.style.height = `${linkCoords.height}px`;
+        highlight.style.transform = `translate(100px, 100px)`;
+        // use the actual data from getBoundingClientReact()
+        highlight.style.transform = `translate(${linkCoords.x}, ${linkCoords.y})`;
+    }
+
+    // Add a listener to each <a> in the document and wait until the user moves the mouse
+    // near before applying the highlight css class via highlightLink().
+    triggers.forEach(a => a.addEventListener("mouseenter", highlightLink));
+    </script>
+</body>
+
+</html>
