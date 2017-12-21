@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>👀👀👀Follow Along Nav</title>
+    <title>👀 Follow Along Nav 👀</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -42,12 +42,22 @@
     function highlightLink() {
 
         const linkCoords = this.getBoundingClientRect();
-        console.log("Highlight!!", linkCoords);
-        highlight.style.width = `${linkCoords.width}px`;
-        highlight.style.height = `${linkCoords.height}px`;
-        highlight.style.transform = `translate(100px, 100px)`;
-        // use the actual data from getBoundingClientReact()
-        highlight.style.transform = `translate(${linkCoords.x}, ${linkCoords.y})`;
+        // console.log("Highlight!!", linkCoords); check
+        const coords = {
+            width: linkCoords.width,
+            height: linkCoords.height,
+            // newY accounts for any amount that the user has scrolled down
+            newY: linkCoords.top + window.scrollY,
+            // newX accounts for any amount that the user scrolled right
+            newX: linkCoords.left + window.scrollX
+            // BOTH ARE NECESSARY OR YOU GET AN OFFSET! Why? (x,y) & (left, top)
+            // are calculated from the top of the VISIBLE page.
+        };
+        // Give the highlight element a width and height that's equal to that of the <a>
+        highlight.style.width = `${coords.width}px`;
+        highlight.style.height = `${coords.height}px`;
+        // use the actual data from getBoundingClientReact() via literal tick marks
+        highlight.style.transform = `translate(${coords.newX}px, ${coords.newY}px)`;
     }
 
     // Add a listener to each <a> in the document and wait until the user moves the mouse
