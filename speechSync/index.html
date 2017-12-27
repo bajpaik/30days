@@ -23,6 +23,7 @@
         <button id="speak">Speak</button>
     </div>
     <script>
+    // SpeechSynthesisUtterance: Global var, represents what a person could say
     const msg = new SpeechSynthesisUtterance();
     let voices = [];
     const voicesDropdown = document.querySelector('[name="voice"]');
@@ -31,12 +32,37 @@
     const stopButton = document.querySelector('#stop');
     msg.text = document.querySelector('[name="text"]').value;
 
+    // need to wait for the voiceschanged event to be fired by speechsynthesis, before calling getVoices.
     function populateVoices() {
+        // over write the empty array that was initiialized at the top
+        // this cannot be called at pageload, need to wait for the speechSynthesis API to load
         voices = this.getVoices();
         console.log(voices);
+        voicesDropdown.innerHTML = voices
+            .map(voice => `<option value="${voice.name}">${voice.name} (${voice.lang}) </option>`)
+            .join('');
     }
 
+
+    function setVoice() {
+        // 'this' is the dropdown, so this.value is the value selected from the dropdown.
+        console.log(this.value);
+        // you need to find the voice that mattches whatever voice was selected
+        // but work with the utterance
+        msg.voice = voices.find(voice => voice.name === this.value);
+        // stop the previous voice and start the new voice
+        toggle();
+    }
+
+    function toggle() {
+        //stop current spoken text
+        speechSynthesis.cancel();
+        // restart (in another voice)
+        speechSynthesis.speak(msg);
+    }
+    //voiceschanged will fire when the speechsynthesis fully loads.. which might take a while
     speechSynthesis.addEventListener('voiceschanged', populateVoices);
+    voicesDropdown.addEventListener('change', setVoice);
     </script>
 </body>
 
