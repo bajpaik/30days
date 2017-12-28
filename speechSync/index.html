@@ -39,8 +39,11 @@
         voices = this.getVoices();
         console.log(voices);
         voicesDropdown.innerHTML = voices
-            .filter(voice => voice.includes('en'))
+            // filter out all languages except english
+            .filter(voice => voice.lang.includes('en'))
+            // map over the filtered results and make a new element to hold HTML
             .map(voice => `<option value="${voice.name}">${voice.name} (${voice.lang}) </option>`)
+            // call join to turn all array elements into one long string.
             .join('');
     }
 
