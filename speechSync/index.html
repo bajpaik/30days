@@ -39,6 +39,7 @@
         voices = this.getVoices();
         console.log(voices);
         voicesDropdown.innerHTML = voices
+            .filter(voice => voice.includes('en'))
             .map(voice => `<option value="${voice.name}">${voice.name} (${voice.lang}) </option>`)
             .join('');
     }
@@ -54,15 +55,29 @@
         toggle();
     }
 
-    function toggle() {
+    function toggle(startOver = true) {
         //stop current spoken text
         speechSynthesis.cancel();
-        // restart (in another voice)
-        speechSynthesis.speak(msg);
+        // restart (in another voice) if FALSE is not passed in.
+        // default is TRUE.
+        if (startOver) speechSynthesis.speak(msg);
     }
+
+    function setOption() {
+        console.log(this.name, this.value); // rate, pitch, text can change
+        // change the pitch and rate of the utterance object
+        msg[this.name] = this.value;
+        // start speaking
+        // toggle also fires when the text changes and you click away.
+        toggle();
+    }
+
     //voiceschanged will fire when the speechsynthesis fully loads.. which might take a while
     speechSynthesis.addEventListener('voiceschanged', populateVoices);
     voicesDropdown.addEventListener('change', setVoice);
+    options.forEach(option => option.addEventListener('change', setOption));
+    speakButton.addEventListener('click', toggle);
+    stopButton.addEventListener('click', toggle.bind(null, false));
     </script>
 </body>
 
