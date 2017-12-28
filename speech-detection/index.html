@@ -27,14 +27,20 @@
             .map(result => result[0])
             .map(result => result.transcript)
             .join('');
+        // set <p> to the intrepreted text
         p.textContent = transcript;
+        /*  To start a new paragraph after the user pauses talking:
+                1. Check to see if the flag isFinal is true or false.
+                2. if true, then make a new <p> and append it onto the last <p>
+        */
         if (e.results[0].isFinal) {
             p = document.createElement('p');
             words.appendChild(p);
         }
         console.log(transcript);
     });
-
+    // listen for the speech detection to register an 'end' event (isFinal = true)
+    // then restart the speech detection, otherwise this will only run once.
     recog.addEventListener('end', recog.start);
     recog.start();
     </script>
