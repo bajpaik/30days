@@ -47,7 +47,7 @@
     const divs = document.querySelectorAll("div");
 
     function logText(e) {
-        consolole.log(this.classList.value, this);
+        console.log(this.classList.value, this);
     }
 
     divs.forEach(div => div.addEventListener('click', logText));
