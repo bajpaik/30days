@@ -52,7 +52,11 @@
         // can call stopPropagation function to stop event capture/bubbling.
         e.stopPropagation();
     }
-    // notice that event bubbling continues upwards and that the body class is also logged.
+    /* Notice that if you uncomment the code below, then event bubbling
+        continues upwards and that the body class is also logged. Why? Because
+        the click event continued to propagate past the div elements and into
+        the body element.
+    */
     document.body.addEventListener('click', logText);
 
     /* CAPTURE: false by default, but if enabled the events will fire as event capture occurs,
