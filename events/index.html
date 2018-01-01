@@ -41,16 +41,33 @@
         background: coral;
     }
     </style>
-    <button></button>
+    <button>One Click Only</button>
     <script>
     //selecting all div elements
     const divs = document.querySelectorAll("div");
+    const button = document.querySelector("button");
 
     function logText(e) {
         console.log(this.classList.value, this);
+        // can call stopPropagation function to stop event capture/bubbling.
+        e.stopPropagation();
     }
+    // notice that event bubbling continues upwards and that the body class is also logged.
+    document.body.addEventListener('click', logText);
 
-    divs.forEach(div => div.addEventListener('click', logText));
+    /* CAPTURE: false by default, but if enabled the events will fire as event capture occurs,
+         instead of during event bubbling. Said differently, the events will fire from TOP -> DOWN
+         rather than DOWN -> TOP.
+    /*
+    /* ONCE: False by default, unbinds the event once fired.
+        - Notice that you can click on the div's all you want, but only "bod" will be logged after
+            all the div events have been fired.
+        - Essenttially the same as div.removeEventListener('click', 'logText')
+        - Really useful for when you do not want the user to click something more than once
+                i.e Shopping cart / checkout button.
+    */
+    divs.forEach(div => div.addEventListener('click', logText, { capture: false, once: true }));
+    button.addEventListener('click', logText, { once: true });
     </script>
 </body>
 
