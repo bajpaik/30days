@@ -7,7 +7,9 @@
 </head>
 
 <body>
-    <h2>Cool</h2>
+    <h2>
+    <!-- content in here to show OFFSET from below: -->
+    </h2>
     <nav class="top">
         <!-- This is the part that follows the dropdowns/mouse -->
         <div class="dropdownBackground">
@@ -15,54 +17,53 @@
         </div>
         <ul class="cool">
             <li>
-                <a href="#">About Me</a>
+                <a href="#">About</a>
                 <div class="dropdown dropdown1">
                     <div class="bio">
-                        <img src="https://logo.clearbit.com/wesbos.com">
-                        <p>Wes Bos sure does love web development. He teaches things like JavaScript, CSS and BBQ. Wait. BBQ isn't part of web development. It should be though!</p>
+                        <p>Hey everyone! This is just a demo page from one of my projects that shows how to construct a seemingly uniform and almost transitionless effect on other elements (the nav in this example), while also following the user's mouse.Enjoy :] </p>
                     </div>
                 </div>
             </li>
             <li>
-                <a href="#">Courses</a>
+                <a href="#">Other Projects</a>
                 <ul class="dropdown courses">
                     <li>
-                        <span class="code">RFB</span>
-                        <a href="https://ReactForBeginners.com">React For Beginners</a>
+                        <span class="code">SD</span>
+                        <a href="https://jessemayo.me/30days/speech-detection/index.html">Speech Detection</a>
                     </li>
                     <li>
-                        <span class="code">ES6</span>
-                        <a href="https://ES6.io">ES6 For Everyone</a>
+                        <span class="code">SS</span>
+                        <a href="https://jessemayo.me/30days/speechSync/index.html">Speech Synthesis</a>
                     </li>
                     <li>
-                        <span class="code">STPU</span>
-                        <a href="https://SublimeTextBook.com">Sublime Text Power User</a>
+                        <span class="code">WCF</span>
+                        <a href="https://jessemayo.me/30days/webcam-fun/">Webcam Fun</a>
                     </li>
                     <li>
-                        <span class="code">WTF</span>
-                        <a href="http://flexbox.io">What The Flexbox?!</a>
+                        <span class="code">SNE</span>
+                        <a href="https://jessemayo.me/30days/sticky-nav/">Sticky Nav Example</a>
                     </li>
                     <li>
-                        <span class="code">LRX</span>
-                        <a href="http://LearnRedux.com">Learn Redux</a>
+                        <span class="code">DS</span>
+                        <a href="https://jessemayo.me/30days/dynamic-shadow/index.html">Dynamic hadowing</a>
                     </li>
                     <li>
-                        <span class="code">CLPU</span>
-                        <a href="http://CommandLinePowerUser.com">Command Line Power User</a>
+                        <span class="code">H5C</span>
+                        <a href="https://jessemayo.me/30days/html5-canvas/">HTML5 Canvas</a>
                     </li>
                     <li>
-                        <span class="code">MMD</span>
-                        <a href="http://MasteringMarkdown.com">Mastering Markdown</a>
+                        <span class="code">CVP</span>
+                        <a href="https://jessemayo.me/30days/custom-player/">Custom Video Player</a>
                     </li>
                 </ul>
             </li>
             <li>
-                <a href="#">Other Links</a>
+                <a href="#">Contact Me</a>
                 <ul class="dropdown dropdown3">
-                    <li><a class="button" href="http://twitter.com/wesbos">Twitter</a></li>
-                    <li><a class="button" href="http://facebook.com/wesbos.developer">Facebook</a></li>
-                    <li><a class="button" href="http://wesbos.com">Blog</a></li>
-                    <li><a class="button" href="http://wesbos.com/courses">Course Catalog</a></li>
+                    <li><a class="button" href="http://twitter.com/stevenmayo_">Twitter</a></li>
+                    <li><a class="button" href="http://facebook.com/jsmayo91">Facebook</a></li>
+                    <li><a class="button" href="https://www.github.com/jsmayo">Github</a></li>
+                    <li><a class="button" href="https://jessemayo.me">Portfolio</a></li>
                 </ul>
             </li>
         </ul>
@@ -86,6 +87,11 @@
         linear-gradient(135deg, hsla(225, 95%, 50%, 1) 10%, hsla(225, 95%, 50%, 0) 80%),
         linear-gradient(225deg, hsla(140, 90%, 50%, 1) 10%, hsla(140, 90%, 50%, 0) 80%),
         linear-gradient(315deg, hsla(35, 95%, 55%, 1) 100%, hsla(35, 95%, 55%, 0) 70%);
+        background-image: url('https://burst.shopifycdn.com/photos/city-behind-greenery_925x.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-position: center;
     }
 
     h2 {
@@ -151,7 +157,7 @@
         background: #fff;
         border-radius: 4px;
         box-shadow: 0 50px 100px rgba(50, 50, 93, .1), 0 15px 35px rgba(50, 50, 93, .15), 0 5px 15px rgba(0, 0, 0, .1);
-        transition: all 0.3s, opacity 0.1s, transform 0.2s;
+        transition: all 0.2s, opacity 0.1s, transform 0.3s;
         transform-origin: 50% 0;
         display: flex;
         justify-content: center;
@@ -231,27 +237,47 @@
             adding the setTimeout() function makes the contents appear to fade in.
         */
         this.classList.add('trigger-enter');
-        // this is the second animation, which changes the opacity from 0 to 1, after 150 ms
-        setTimeout(() => this.classList.add('trigger-enter-active'), 150);
-        /* if you do not use an arrow function, you will get an error by using 'this'
-            becuase the value of this changes EACH time you enter into a new function.
-            However, if you use an arrow function, the value of 'this' is inherited.
+        /* IF STATEMENT PREVENTS ERRORS FROM POTENTIALLY MOVING THE MOUSE BACK AND FORTH QUICKLY,
+            AND TRYING TO REMOVE/ADD TRIGGER-ENTER-ACTIVE W/O TRIGGER-ENTER FIRST APPLIED
+                     if(this.classList.contains('trigger-enter'))
+            THIS WAS MOVED TO && STATEMENT INSIDE OF SETTIMEOUT(), WHICH IS A SHORTCUT :D! LINE 246
         */
-        // opacity of 1 when open is applied, 0 otherwise
+        /*
+            1. This is the second animation, which changes the opacity from 0 to 1, after 150 ms
+            2. If you do not use an arrow function, you will get an error by using 'this'
+                becuase the value of this changes EACH time you enter into a new function.
+            3. However, if you use an arrow function, the value of 'this' is inherited.
+        */
+        // SHORTCUT B/C OF BEHIAVOR OF &&, RHS ONLY RUNS IF LHS IS TRUE FIRST :) *SEE ABOVE*
+        setTimeout(() => this.classList.contains('trigger-enter') && this.classList.add('trigger-enter-active'), 150);
+
+        // opacity of 1 when open is applied when open class is added, hidden otherwise w/ at 0.
         background.classList.add('open');
 
         const dropdown = this.querySelector('.dropdown');
-        //get rectangle surrounding the clients hover selection
+        //get the block coords surrounding the clients hover selection from display:block
         const dropdownCoords = dropdown.getBoundingClientRect();
         // console.log(dropdown, dropdownCoords);
+        // NEEDED FOR OFFSETTING THE BACKGROUND COORDS{}!!!
         const navCoords = nav.getBoundingClientRect();
-
+        /* WITH THE LEFT AND TOP:
+        -   Offset required, just in case the elements were
+            not anchored in place. Without offsetting the positions of the nav, any elements
+            that were added/removed would alter the X,Y of the dropdown background, and it
+            would not line up properly.
+        - Just remove -navCoords ... and see result.
+        - jQuery's .offset takes care of the above (if used)
+        */
         const coords = {
             height: dropdownCoords.height,
-            width: dropdownCoords.width
+            width: dropdownCoords.width,
+            left: dropdownCoords.left - navCoords.left,
+            top: dropdownCoords.top - navCoords.top,
         };
+        // set width and height of hovered selection:
         background.style.setProperty('height', `${coords.height}px`);
         background.style.setProperty('width', `${coords.width}px`);
+        background.style.setProperty('transform', `translate(${coords.left}px, ${coords.top}px)`);
     }
 
     function handleLeave() {
