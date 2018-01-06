@@ -36,6 +36,33 @@
         <div class="item item25">25</div>
     </div>
     <script>
+    // grabbing all slider items .. white div around all items
+    const slider = document.querySelector('.items');
+    //flag variable to tell if user clicked
+    let isDown = false;
+    // starting point for where the user starts to click (for distance calc)
+    let startX;
+    let scrollLeft;
+
+    slider.addEventListener('mousedown', (e) => {
+        isDown = true;
+        slider.classList.add('active');
+        // get mousedown event's pageX coord, subtract the slider offset
+        startX = e.pageX - slider.offsetLeft;
+    });
+    slider.addEventListener('mouseleave', () => {
+        // you don't want isDown still triggered if user leaves and re-enters the window.
+        isDown = false;
+        slider.classList.remove('active');
+    });
+    slider.addEventListener('mouseup', () => {
+        isDown = false;
+        slider.classList.remove('active');
+    });
+    slider.addEventListener('mousemove', () => {
+        if (!isDown) return; // prevent console log from filling up unnecessarily.
+        console.log(isDown);
+    });
     </script>
 </body>
 
