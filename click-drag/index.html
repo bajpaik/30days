@@ -49,19 +49,27 @@
         slider.classList.add('active');
         // get mousedown event's pageX coord, subtract the slider offset
         startX = e.pageX - slider.offsetLeft;
+        scrollLeft = slider.scrollLeft;
     });
+
     slider.addEventListener('mouseleave', () => {
         // you don't want isDown still triggered if user leaves and re-enters the window.
         isDown = false;
         slider.classList.remove('active');
     });
+
     slider.addEventListener('mouseup', () => {
         isDown = false;
         slider.classList.remove('active');
     });
-    slider.addEventListener('mousemove', () => {
+
+    slider.addEventListener('mousemove', (e) => {
         if (!isDown) return; // prevent console log from filling up unnecessarily.
-        console.log(isDown);
+        // console.log(isDown);
+        e.preventDefault();
+        // recalculate x everytime the mouse is moved
+        const x = e.pageX - slider.offsetLeft;
+
     });
     </script>
 </body>
