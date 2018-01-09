@@ -70,6 +70,7 @@
         e.preventDefault();
         // recalculate x everytime the mouse is moved
         const x = e.pageX - slider.offsetLeft;
+        // multiplied by 2 to make the amount of scrolling/walk quicker (2x distance per px drag)
         const walk = (x - startX) * 2;
         // console.log(walk);
         /* DO NOT USE:
