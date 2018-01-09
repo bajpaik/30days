@@ -42,6 +42,7 @@
     let isDown = false;
     // starting point for where the user starts to click (for distance calc)
     let startX;
+    // initial scroll start point
     let scrollLeft;
 
     slider.addEventListener('mousedown', (e) => {
@@ -69,7 +70,16 @@
         e.preventDefault();
         // recalculate x everytime the mouse is moved
         const x = e.pageX - slider.offsetLeft;
-
+        const walk = (x - startX) * 2;
+        // console.log(walk);
+        /* DO NOT USE:
+                    scrollLeft = walk;
+            b/c it's jumpy due to constant recalc
+             scroll direction is *NATURAL DIRECTION*, so MINUS to reverse!!
+             Also, scrollLeft was the variable that was capture in variable
+             definitions, and was used to keep track of initial scrollbar location.
+        */
+        slider.scrollLeft = scrollLeft - walk;
     });
     </script>
 </body>
