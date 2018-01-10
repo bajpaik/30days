@@ -19,9 +19,32 @@
     const bar = speed.querySelector('.speed-bar');
     const video = document.querySelector('.flex');
 
-    speed.addEventListener('mousemove', function(e)) {
-        console.log(e);
-    }
+    speed.addEventListener('mousemove', function(e) {
+        // console.log(e);
+        // account for any padding between top of page and top of element
+        const y = e.pageY - this.offsetTop;
+        // get a percentage via where user is / total height of UI element
+        const percent = y / this.offsetHeight;
+        // console.log(y, percent);
+        // min height (cannot be 0), console log it to get a number
+        const min = 0.4;
+        // max height of 400 .. so 4X.. again, console.log to see the heights
+        const max = 4;
+        // Get a textual percent output to set CSS height of the speed bar
+        const height = Math.round(percent * 100) + '%';
+        // console.log(height);
+        // set the speed bar
+        bar.style.height = height;
+        /* Cannot do playback = 0 when at the min, likewise, if you're at the max, you
+            don't need it to play at 1x, so you need to offset the height.
+        */
+        const playbackRate = percent * (max - min) + min;
+        // change the textContent of the speedbar and use toFixed() to force round to 2 decimal places.
+        bar.textContent = playbackRate.toFixed(2) + "x";
+        // .playbackRate is a property of the video element.
+        // You can set in chrome via console to see ex. Audio stops when playback is too low or too high.
+        video.playbackRate = playbackRate;
+    });
     </script>
 </body>
 
