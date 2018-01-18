@@ -37,25 +37,29 @@
   const scoreBoard = document.querySelector('.score');
   const moles = document.querySelectorAll('.mole');
   let lastHole;
+  let timeUp = false; // flag for end-of-game
+  let score = 0;
 
-  // generate random time
+
+  // generate random time for mole to peep out
   function randomTime(min, max) {
     return Math.round(Math.random() * (max-min) + min);
   }
 
-  // generate random hole number
+  // generate random hole number for mole to peep out from
   function randomHole(holes) {
     // console.log(holes.length);
     const idx = Math.floor(Math.random() * holes.length);
     const hole = holes[idx];
     if(hole === lastHole) {
-      console.log("Nope, don't want to repeat the same hole");
+      // console.log("Nope, don't want to repeat the same hole");
       return randomHole(holes); //recursive call
     }
     lastHole = hole;
     return hole;
   }
 
+  // called after the game has started, which sets the time that each mole should 'peep' up
   function peep() {
     // get a random hole and time
     const time = randomTime(200, 1000);
@@ -63,9 +67,31 @@
     hole.classList.add('up'); // add the up class to make the moles pop up
     setTimeout(() => {
       hole.classList.remove('up');
+      if(!timeUp) peep();
     }, time);
   }
 
+
+  // set initial values to 0, then start the game.
+  function startGame() {
+    scoreBoard.textContent = 0; // set score to zero
+    timeUp = false; // just in case
+    score = 0;
+    peep(); // run the game
+    setTimeout( () => timeUp = true, 10000) // set timeUp to true after 10 seconds
+  }
+
+  // Increase score and make the mole go down.
+  function bonk(e) {
+    // console.log(e);
+    if(!e.isTrusted) return; // If the user attempts to simulate a click via JS, !isTrusted is flagged on the click event.
+    score++;
+    this.classList.remove('up');
+    scoreBoard.textContent = score;
+  }
+
+// Listen on each MOLE for a click. If a click is registered, run the bonk() function
+moles.forEach(mole => mole.addEventListener('click', bonk));
 </script>
 </body>
 </html>
